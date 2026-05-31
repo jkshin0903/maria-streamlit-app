@@ -6,6 +6,43 @@
 
 ---
 
+## 팀 *Maria*
+
+<table>
+  <tr>
+    <td align="center" width="150px">
+      <a href="https://github.com/sh-byun" target="_blank">
+        <img src="https://avatars.githubusercontent.com/u/266037836?v=4" alt="sh-byun 프로필" width="100px;" style="border-radius: 50%;"/>
+        <br />
+        <sub><b>sh-byun</b></sub>
+      </a>
+    </td>
+    <td align="center" width="150px">
+      <a href="https://github.com/jkshin0903" target="_blank">
+        <img src="https://avatars.githubusercontent.com/u/217357056?v=4" alt="jkshin0903 프로필" width="100px;" style="border-radius: 50%;"/>
+        <br />
+        <sub><b>jkshin0903</b></sub>
+      </a>
+    </td>
+        <td align="center" width="150px">
+      <a href="https://github.com/Jungmin-yonsei" target="_blank">
+        <img src="https://avatars.githubusercontent.com/u/243153797?v=4" alt="Jungmin-yonsei 프로필" width="100px;" style="border-radius: 50%;"/>
+        <br />
+        <sub><b>Jungmin-yonsei</b></sub>
+      </a>
+    </td>
+    <td align="center" width="150px">
+      <a href="https://github.com/octocat" target="_blank">
+        <img src="https://avatars.githubusercontent.com/u/583231?v=4" alt="kimfield 프로필" width="100px;" style="border-radius: 50%;"/>
+        <br />
+        <sub><b>octocat</b></sub>
+      </a>
+    </td>
+  </tr>
+</table>
+
+<br/>
+
 ## 이 프로젝트에서 하려는 것
 
 | 구분 | 화면 코드 | 설명 |
