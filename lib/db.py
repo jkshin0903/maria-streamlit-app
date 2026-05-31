@@ -4,24 +4,27 @@ import pandas as pd
 import pymysql
 import streamlit as st
 
-DB_CONFIG = dict(
-    host="127.0.0.1", port=3306, user="root", password="blueof0!",
-    database="company", charset="utf8mb4", autocommit=True,
-    cursorclass=pymysql.cursors.DictCursor,
-)
+from lib.db_config import get_connect_kwargs
+
+
+def _connect():
+    return pymysql.connect(**get_connect_kwargs(
+        autocommit=True,
+        cursorclass=pymysql.cursors.DictCursor,
+    ))
 
 
 def get_conn():
     """Return a live connection, reconnecting if the pooled one dropped."""
     conn = st.session_state.get("_db_conn")
     if conn is None:
-        conn = pymysql.connect(**DB_CONFIG)
+        conn = _connect()
         st.session_state["_db_conn"] = conn
     else:
         try:
             conn.ping(reconnect=True)
         except Exception:
-            conn = pymysql.connect(**DB_CONFIG)
+            conn = _connect()
             st.session_state["_db_conn"] = conn
     return conn
 

@@ -13,10 +13,9 @@ from datetime import datetime, timedelta, date
 
 import pymysql
 
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
+from lib.db_config import get_connect_kwargs
 
-DB = dict(host="127.0.0.1", port=3306, user="root", password="blueof0!",
-          database="company", autocommit=False, charset="utf8mb4")
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8")
 
 TODAY = date(2026, 5, 29)
 random.seed(42)
@@ -189,7 +188,7 @@ def dt(d):
 
 
 def main():
-    conn = pymysql.connect(**DB)
+    conn = pymysql.connect(**get_connect_kwargs(autocommit=False))
     cur = conn.cursor()
     extend_schema(cur)
     conn.commit()
