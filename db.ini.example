@@ -1,0 +1,14 @@
+# Copy to db.ini and fill in credentials (db.ini is gitignored via *.ini)
+
+[database]
+host = your-service.aivencloud.com
+port = 26706
+user = avnadmin
+password = your_db_password
+name = defaultdb
+charset = utf8mb4
+connect_timeout = 10
+read_timeout = 10
+write_timeout = 10
+# Aiven CA bundle (download from console); path relative to project root
+ssl_ca = ca.pem
