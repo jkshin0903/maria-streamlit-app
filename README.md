@@ -32,8 +32,8 @@
       </a>
     </td>
     <td align="center" width="150px">
-      <a href="https://github.com/octocat" target="_blank">
-        <img src="https://avatars.githubusercontent.com/u/583231?v=4" alt="kimfield 프로필" width="100px;" style="border-radius: 50%;"/>
+      <a href="https://github.com/hayoungju08" target="_blank">
+        <img src="https://avatars.githubusercontent.com/u/289516006?v=4" alt="kimfield 프로필" width="100px;" style="border-radius: 50%;"/>
         <br />
         <sub><b>octocat</b></sub>
       </a>
