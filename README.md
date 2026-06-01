@@ -35,7 +35,7 @@
       <a href="https://github.com/hayoungju08" target="_blank">
         <img src="https://avatars.githubusercontent.com/u/289516006?v=4" alt="kimfield 프로필" width="100px;" style="border-radius: 50%;"/>
         <br />
-        <sub><b>octocat</b></sub>
+        <sub><b>hayoungju08</b></sub>
       </a>
     </td>
   </tr>
