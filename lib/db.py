@@ -29,32 +29,63 @@ def get_conn():
     return conn
 
 
+def _drop_conn():
+    """Discard the cached connection so the next call rebuilds it.
+
+    A pymysql connection is not safe to reuse after a query is interrupted
+    mid-flight (e.g. Streamlit stops a rerunning script): leftover bytes stay
+    on the socket and poison the next query with packet-sequence/struct errors.
+    """
+    conn = st.session_state.pop("_db_conn", None)
+    if conn is not None:
+        try:
+            conn.close()
+        except Exception:
+            pass
+
+
 def query_df(sql, params=None):
     conn = get_conn()
-    with conn.cursor() as cur:
-        cur.execute(sql, params or ())
-        rows = cur.fetchall()
+    try:
+        with conn.cursor() as cur:
+            cur.execute(sql, params or ())
+            rows = cur.fetchall()
+    except Exception:
+        _drop_conn()
+        raise
     return pd.DataFrame(rows)
 
 
 def query_one(sql, params=None):
     conn = get_conn()
-    with conn.cursor() as cur:
-        cur.execute(sql, params or ())
-        return cur.fetchone()
+    try:
+        with conn.cursor() as cur:
+            cur.execute(sql, params or ())
+            return cur.fetchone()
+    except Exception:
+        _drop_conn()
+        raise
 
 
 def execute(sql, params=None):
     conn = get_conn()
-    with conn.cursor() as cur:
-        cur.execute(sql, params or ())
-        return cur.lastrowid
+    try:
+        with conn.cursor() as cur:
+            cur.execute(sql, params or ())
+            return cur.lastrowid
+    except Exception:
+        _drop_conn()
+        raise
 
 
 def execute_many(sql, seq):
     conn = get_conn()
-    with conn.cursor() as cur:
-        cur.executemany(sql, seq)
+    try:
+        with conn.cursor() as cur:
+            cur.executemany(sql, seq)
+    except Exception:
+        _drop_conn()
+        raise
 
 
 def next_id(table, pk):
