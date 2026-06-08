@@ -108,6 +108,8 @@ T = {
                    "동일 발주서 내 제품 중복 (BR-07): {names}"),
     "po.fax_no_vendor": ("Select a vendor before sending a fax.",
                          "팩스 전송 전에 벤더를 선택하세요."),
+    "po.fax_no_line": ("Add at least one product line before sending a fax.",
+                       "팩스 전송 전에 품목을 하나 이상 추가하세요."),
     "po.fax_no_fax": ("⚠️ Vendor fax number is not registered — cannot send (BR-08).",
                       "⚠️ 벤더 팩스번호가 등록되지 않아 전송할 수 없습니다 (BR-08)."),
     "po.fax_ok": ("📠 Purchase order PDF generated and faxed to {vendor} at {fax}.",

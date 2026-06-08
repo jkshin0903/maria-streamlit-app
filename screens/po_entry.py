@@ -62,7 +62,7 @@ def render():
     vrow = vendors[vendors.vendor_id == vid].iloc[0] if vid is not None else None
     with vc1:
         st.text_input(t("po.vendor_addr"),
-                      value=(vrow.address if vrow is not None else ""), key="po_vaddr")
+                      value=(vrow.address if vrow is not None else ""), disabled=True)
     with vc2:
         st.text_input(t("po.vendor_phone"),
                       value=(vrow.phone if vrow is not None else ""), disabled=True)
@@ -74,11 +74,13 @@ def render():
     ui.section(t("po.sec_lines"))
     st.caption(t("po.lines_help"))
 
+    base_len = len(st.session_state.po_lines)
+    editor_key = f"po_editor_{st.session_state.get('po_editor_nonce', 0)}"
     edited = st.data_editor(
         st.session_state.po_lines,
         num_rows="dynamic",
         width='stretch',
-        key="po_editor",
+        key=editor_key,
         column_config={
             "product": st.column_config.SelectboxColumn(
                 t("po.col_product"), options=list(prod_label.keys()),
@@ -92,7 +94,8 @@ def render():
         },
     )
 
-    edited = edited.copy()
+    edited = edited.reset_index(drop=True)
+    raw = edited.copy()
     for i, row in edited.iterrows():
         p = row["product"]
         if p in prod_info:
@@ -104,8 +107,19 @@ def render():
             edited.at[i, "quantity"] = 1
     st.session_state.po_lines = edited
 
+    # On row add/delete or auto-fill, re-init the editor under a fresh key so its
+    # stale edit deltas don't reapply to the already-updated base.
+    structural = len(raw) != base_len
+    if structural or not edited.equals(raw):
+        st.session_state.po_editor_nonce = st.session_state.get("po_editor_nonce", 0) + 1
+        st.rerun()
+
     valid = edited[edited["product"].notna()].copy()
     valid["line_total"] = valid["quantity"].fillna(0) * valid["unit_price"].fillna(0)
+    dup_products = valid["product"][valid["product"].duplicated()].unique()
+    if len(dup_products):
+        dup_names = ", ".join(prod_label.get(d, str(d)) for d in dup_products)
+        st.warning(t("po.err_dup", names=dup_names))
     if not valid.empty:
         disp = valid.assign(
             Product=[prod_label.get(p, "") for p in valid["product"]],
@@ -135,6 +149,7 @@ def render():
 
     if clear:
         st.session_state.po_lines = _blank_lines()
+        st.session_state.po_editor_nonce = st.session_state.get("po_editor_nonce", 0) + 1
         st.rerun()
 
     def validate():
@@ -158,6 +173,8 @@ def render():
     if fax:
         if vid is None:
             st.warning(t("po.fax_no_vendor"))
+        elif len(valid) == 0:
+            st.warning(t("po.fax_no_line"))
         elif not (vrow.fax or "").strip():
             st.warning(t("po.fax_no_fax"))
         else:
@@ -183,5 +200,6 @@ def render():
                          total=ui.money(total_amount)))
             st.balloons()
             st.session_state.po_lines = _blank_lines()
+            st.session_state.po_editor_nonce = st.session_state.get("po_editor_nonce", 0) + 1
         except Exception as e:
             st.error(t("po.save_fail", e=e))
