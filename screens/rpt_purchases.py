@@ -130,10 +130,12 @@ def render():
                    t("c.machine"), t("c.manuf"), t("r2.f_type"), t("r2.c_qty"),
                    t("r2.c_unit"), t("r2.c_total"), t("r2.c_serials"), t("r2.c_receive"),
                    t("r2.f_status"), t("r2.c_ddate"), t("r2.c_dreason")]
-    e1, _ = st.columns([1, 5])
+    e1, e2, _ = st.columns([1, 1, 4])
     e1.download_button(t("btn.export_excel"),
                        export.to_excel_bytes(exp, f"Purchases {year}"),
                        file_name=f"annual_purchases_{year}.xlsx", width='stretch')
+    if e2.button(t("btn.print"), width='stretch'):
+        st.toast(t("msg.printed_short"))
     st.markdown("---")
 
     # ---------------- grouped by vendor ----------------
