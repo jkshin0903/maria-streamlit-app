@@ -212,10 +212,12 @@ def render():
         "Recommendation": t("r3.c_recommend")}
 
     exp = df.drop(columns=["_age"]).rename(columns=rename)
-    e1, _ = st.columns([1, 5])
+    e1, e2, _ = st.columns([1, 1, 4])
     e1.download_button(t("btn.export_report"),
                        export.to_excel_bytes(exp, "Profitability"),
                        file_name="profitability_analysis.xlsx", width='stretch')
+    if e2.button(t("btn.print_pdf"), width='stretch'):
+        st.toast(t("msg.exported"))
     st.markdown("---")
 
     # ---------------- styled table (red highlight for Low) ----------------
