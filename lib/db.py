@@ -44,27 +44,39 @@ def _drop_conn():
             pass
 
 
+def _read(op, retries=1):
+    """Run a read op(cursor) with one reconnect retry.
+
+    A Streamlit rerun can interrupt a query mid-flight and leave stray bytes on
+    the pooled socket, so the next read fails with a packet-sequence
+    InternalError even though ping() looked healthy. Dropping the poisoned
+    connection and retrying on a fresh one makes these transient errors
+    transparent. Reads only — re-running them is side-effect free.
+    """
+    last = None
+    for _ in range(retries + 1):
+        conn = get_conn()
+        try:
+            with conn.cursor() as cur:
+                return op(cur)
+        except Exception as e:
+            last = e
+            _drop_conn()
+    raise last
+
+
 def query_df(sql, params=None):
-    conn = get_conn()
-    try:
-        with conn.cursor() as cur:
-            cur.execute(sql, params or ())
-            rows = cur.fetchall()
-    except Exception:
-        _drop_conn()
-        raise
-    return pd.DataFrame(rows)
+    def op(cur):
+        cur.execute(sql, params or ())
+        return pd.DataFrame(cur.fetchall())
+    return _read(op)
 
 
 def query_one(sql, params=None):
-    conn = get_conn()
-    try:
-        with conn.cursor() as cur:
-            cur.execute(sql, params or ())
-            return cur.fetchone()
-    except Exception:
-        _drop_conn()
-        raise
+    def op(cur):
+        cur.execute(sql, params or ())
+        return cur.fetchone()
+    return _read(op)
 
 
 def execute(sql, params=None):

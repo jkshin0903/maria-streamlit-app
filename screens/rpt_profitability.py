@@ -31,49 +31,13 @@ def _period_range(label, custom):
     return date(today.year, 1, 1), today
 
 
-def render():
-    ui.appbar()
-    ui.screen_header("SCR-RPT-03", t("r3.title"), t("r3.sub"))
+def _build_report(period, custom, threshold, allowed, sel_locs, sel_types):
+    """Run all queries and return the finished report frame.
 
-    scope = ui.user_scope()
-    sites = db.get_sites()
-    types = db.get_machine_types()
-    allowed = scope.get("locations")
-    if allowed is not None:
-        sites = sites[sites.location_id.isin(allowed)]
-    loc_opts = {int(r.location_id): r.location_name for r in sites.itertuples()}
-
-    ui.section(t("r3.sec_filter"))
-    f1, f2, f3 = st.columns(3)
-    with f1:
-        period = st.selectbox(t("r3.f_period"), PERIODS,
-                              format_func=lambda x: t(PERIOD_KEY[x]))
-    with f2:
-        custom = st.date_input(t("r3.f_custom"), value=(), format="MM/DD/YYYY",
-                               disabled=(period != "Custom"))
-    with f3:
-        threshold = st.number_input(t("r3.f_threshold"), min_value=0.0, value=5000.0,
-                                    step=500.0, help=t("r3.f_threshold_help"))
-    f4, f5 = st.columns(2)
-    with f4:
-        sel_locs = st.multiselect(t("r3.f_loc"), options=list(loc_opts.keys()),
-                                  format_func=lambda x: loc_opts[x],
-                                  placeholder=t("word.all_locations"))
-    with f5:
-        sel_types = st.multiselect(t("r3.f_type"), options=types,
-                                   placeholder=t("word.all_types"))
-
-    b1, _ = st.columns([1, 5])
-    search = b1.button(t("btn.search"), type="primary", width='stretch')
-    if "rpt03_run" not in st.session_state:
-        st.session_state.rpt03_run = True
-    if search:
-        st.session_state.rpt03_run = True
-    if not st.session_state.rpt03_run:
-        return
-
+    Kept separate from render() so the (heavy) querying only happens when the
+    user clicks Search, not on every screen load / rerun.
+    """
     start, end = _period_range(period, custom)
-    st.caption(t("r3.window", a=f"{start:%m/%d/%Y}", b=f"{end:%m/%d/%Y}"))
 
     where = ["bl.location_type='Site'", "m.machine_status IN ('Active','Under Repair')"]
     params = []
@@ -99,8 +63,7 @@ def render():
     """, params)
 
     if base.empty:
-        st.info(t("r3.no_data"))
-        return
+        return dict(df=pd.DataFrame(), data_short=False, start=start, end=end)
 
     rows = []
     data_short = False
@@ -169,9 +132,61 @@ def render():
             Repairs=rep_n, RepairCost=rep_cost, History=hist_str,
             Status=status, Recommendation=rec, _age=age_days))
 
-    df = pd.DataFrame(rows)
+    return dict(df=pd.DataFrame(rows), data_short=data_short, start=start, end=end)
 
-    if data_short:
+
+def render():
+    ui.appbar()
+    ui.screen_header("SCR-RPT-03", t("r3.title"), t("r3.sub"))
+
+    scope = ui.user_scope()
+    sites = db.get_sites()
+    types = db.get_machine_types()
+    allowed = scope.get("locations")
+    if allowed is not None:
+        sites = sites[sites.location_id.isin(allowed)]
+    loc_opts = {int(r.location_id): r.location_name for r in sites.itertuples()}
+
+    ui.section(t("r3.sec_filter"))
+    f1, f2, f3 = st.columns(3)
+    with f1:
+        period = st.selectbox(t("r3.f_period"), PERIODS,
+                              format_func=lambda x: t(PERIOD_KEY[x]))
+    with f2:
+        custom = st.date_input(t("r3.f_custom"), value=(), format="MM/DD/YYYY",
+                               disabled=(period != "Custom"))
+    with f3:
+        threshold = st.number_input(t("r3.f_threshold"), min_value=0.0, value=5000.0,
+                                    step=500.0, help=t("r3.f_threshold_help"))
+    f4, f5 = st.columns(2)
+    with f4:
+        sel_locs = st.multiselect(t("r3.f_loc"), options=list(loc_opts.keys()),
+                                  format_func=lambda x: loc_opts[x],
+                                  placeholder=t("word.all_locations"))
+    with f5:
+        sel_types = st.multiselect(t("r3.f_type"), options=types,
+                                   placeholder=t("word.all_types"))
+
+    b1, _ = st.columns([1, 5])
+    search = b1.button(t("btn.search"), type="primary", width='stretch')
+    if search:
+        st.session_state.rpt03_data = _build_report(
+            period, custom, threshold, allowed, sel_locs, sel_types)
+
+    data = st.session_state.get("rpt03_data")
+    if data is None:
+        st.info(t("r3.prompt"))
+        return
+
+    start, end = data["start"], data["end"]
+    st.caption(t("r3.window", a=f"{start:%m/%d/%Y}", b=f"{end:%m/%d/%Y}"))
+
+    df = data["df"]
+    if df.empty:
+        st.info(t("r3.no_data"))
+        return
+
+    if data["data_short"]:
         st.warning(t("r3.data_short"))
 
     # ---------------- summary ----------------

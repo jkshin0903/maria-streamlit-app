@@ -126,9 +126,11 @@ def inject_css():
             border-radius:9px; font-weight:600; border:1px solid #cfd8e3;
         }
         .stButton>button[kind="primary"], .stDownloadButton>button {
-            background:var(--rs-primary); border-color:var(--rs-primary);
+            background:var(--rs-primary); border-color:var(--rs-primary); color:#fff;
         }
-        .stButton>button[kind="primary"]:hover { background:#163961; }
+        .stButton>button[kind="primary"]:hover, .stDownloadButton>button:hover {
+            background:#163961; border-color:#163961; color:#fff;
+        }
 
         /* dataframe header */
         thead tr th { background:#eef3f9 !important; color:#0F2A4A !important;

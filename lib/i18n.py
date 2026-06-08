@@ -308,6 +308,8 @@ T = {
     "r3.window": ("Analysis window: **{a} → {b}**", "분석 구간: **{a} → {b}**"),
     "r3.no_data": ("No installed machines match the selected criteria.",
                    "선택한 조건에 맞는 설치 기기가 없습니다."),
+    "r3.prompt": ("Set the filters and click Search to generate the report.",
+                  "필터를 설정한 뒤 조회 버튼을 눌러 보고서를 생성하세요."),
     "r3.data_short": ("⚠️ Some machines were installed < 90 days ago — data is "
                       "insufficient, use for reference only (BR-06).",
                       "⚠️ 일부 기기는 설치 후 90일 미만입니다 — 데이터 부족, "
