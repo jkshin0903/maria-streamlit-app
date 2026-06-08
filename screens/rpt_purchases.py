@@ -14,6 +14,7 @@ CURRENT_YEAR = 2026
 def render():
     ui.appbar()
     ui.screen_header("SCR-RPT-02", t("r2.title"), t("r2.sub"))
+    ui.intro(t("r2.intro"))
 
     vendors = db.get_vendors()
     types = db.get_machine_types()

@@ -21,6 +21,7 @@ def _blank_lines():
 def render():
     ui.appbar()
     ui.screen_header("SCR-IN-01", t("po.title"), t("po.sub"))
+    ui.intro(t("po.intro"))
 
     user = ui.current_user()
     products = db.get_products()

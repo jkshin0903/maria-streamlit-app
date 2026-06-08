@@ -138,6 +138,7 @@ def _build_report(period, custom, threshold, allowed, sel_locs, sel_types):
 def render():
     ui.appbar()
     ui.screen_header("SCR-RPT-03", t("r3.title"), t("r3.sub"))
+    ui.intro(t("r3.intro"))
 
     scope = ui.user_scope()
     sites = db.get_sites()

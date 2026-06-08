@@ -110,6 +110,15 @@ def inject_css():
             margin:0 0 2px 0; }
         .rs-screen-sub { color:#5a6b7d; font-size:.9rem; margin-bottom:6px; }
 
+        /* first-time-user intro note */
+        .rs-intro { background:#e8f6ec; border:1px solid #b7e2c4;
+            border-left:4px solid #2e9e54; border-radius:10px; color:#1f5130;
+            padding:12px 16px; margin:4px 0 12px 0; font-size:.9rem; line-height:1.5; }
+        .rs-intro-title { font-weight:700; color:#14622f; font-size:.96rem;
+            padding-bottom:6px; margin-bottom:8px; border-bottom:1px solid #c4e6cf; }
+        .rs-intro ul { margin:0; padding-left:18px; }
+        .rs-intro li { margin:3px 0; }
+
         /* section card */
         .rs-section { font-size:1rem; font-weight:700; color:var(--rs-primary);
             border-left:4px solid var(--rs-accent); padding-left:10px; margin:8px 0 6px 0; }
@@ -171,6 +180,11 @@ def screen_header(code, title, subtitle=""):
     if subtitle:
         st.markdown(f'<div class="rs-screen-sub">{subtitle}</div>', unsafe_allow_html=True)
     st.markdown("<hr>", unsafe_allow_html=True)
+
+
+def intro(text):
+    """Short 'what is this screen' note for first-time users, under the header."""
+    st.markdown(f'<div class="rs-intro">{text}</div>', unsafe_allow_html=True)
 
 
 def section(title):

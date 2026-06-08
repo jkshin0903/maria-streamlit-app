@@ -40,6 +40,7 @@ def _install_history(serial):
 def render():
     ui.appbar()
     ui.screen_header("SCR-IN-02", t("mo.title"), t("mo.sub"))
+    ui.intro(t("mo.intro"))
 
     user = ui.current_user()
     techs = db.get_technicians()

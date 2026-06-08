@@ -57,8 +57,25 @@ T = {
 
     # ---- SCR-IN-01 Purchase Order ----
     "po.title": ("Purchase Order Entry", "구매 발주서 입력"),
-    "po.sub": ("Create, save and fax a digital purchase order to a registered vendor.",
-               "등록된 벤더에게 전자 발주서를 작성·저장·팩스 전송합니다."),
+    "po.sub": ("Create and save a digital purchase order to a registered vendor.",
+               "등록된 벤더에게 전자 발주서를 작성·저장합니다."),
+    "po.intro": ("<div class='rs-intro-title'>Write and save a purchase order to a "
+                 "vendor.</div><ul>"
+                 "<li>Select a vendor — address, phone and fax auto-fill</li>"
+                 "<li>Add products — manufacturer, type and list price auto-fill</li>"
+                 "<li>Set quantity (at least 1) and unit price (greater than 0); no "
+                 "duplicate products</li>"
+                 "<li>Line count, total quantity and order total update live</li>"
+                 "<li>Save records it as Pending with an auto PO number; Clear empties "
+                 "the form</li></ul>",
+                 "<div class='rs-intro-title'>벤더에게 보낼 구매 발주서를 작성·저장하는 "
+                 "화면입니다.</div><ul>"
+                 "<li>벤더 선택 → 주소·전화·팩스 자동 입력</li>"
+                 "<li>품목 추가 → 제조사·유형·정가 자동 채움</li>"
+                 "<li>수량(1 이상)·단가(0 초과) 입력, 같은 제품 중복 불가</li>"
+                 "<li>품목 수·총 수량·발주 총액 실시간 표시</li>"
+                 "<li>저장 시 Pending 상태로 기록·발주번호 자동 부여, 초기화로 입력 "
+                 "비움</li></ul>"),
     "po.no_master": ("Vendor / product master data is missing. Run seed.py first.",
                      "벤더/제품 기준정보가 없습니다. 먼저 seed.py를 실행하세요."),
     "po.sec_header": ("Order Header", "발주 헤더"),
@@ -109,6 +126,23 @@ T = {
     "mo.title": ("Machine Install / Remove Order", "기기 설치 / 제거 지시서"),
     "mo.sub": ("Direct a technician to install, remove or relocate machines on site.",
                "기술자에게 기기 설치·제거·이전 작업을 지시합니다."),
+    "mo.intro": ("<div class='rs-intro-title'>Create a work order for a technician to "
+                 "install, remove or relocate machines.</div><ul>"
+                 "<li>Choose a region and technician; set the scheduled date/time (today "
+                 "or later)</li>"
+                 "<li>Add machine lines by serial number with the action and target "
+                 "location</li>"
+                 "<li>Add optional notes</li>"
+                 "<li>Order number and date fill in automatically</li>"
+                 "<li>Save Draft to keep it, or Submit to assign the technician</li>"
+                 "</ul>",
+                 "<div class='rs-intro-title'>기술자에게 기기 설치·제거·이전을 지시하는 "
+                 "작업 지시서 화면입니다.</div><ul>"
+                 "<li>지역·기술자 선택, 예정일·시간 설정(오늘 이후)</li>"
+                 "<li>일련번호로 기기 라인 추가 → 작업 종류·대상 위치 지정</li>"
+                 "<li>필요 시 메모 입력</li>"
+                 "<li>지시서 번호·날짜 자동 입력</li>"
+                 "<li>임시저장(보관) / 제출(기술자 배정)</li></ul>"),
     "mo.no_machine": ("No machine records found. Run seed.py first.",
                       "기기 데이터가 없습니다. 먼저 seed.py를 실행하세요."),
     "mo.sec_header": ("Order Header", "지시서 헤더"),
@@ -203,6 +237,21 @@ T = {
     "r1.title": ("Installed Machine Status Report", "전체 설치 기기 현황 보고서"),
     "r1.sub": ("Current machine inventory grouped by business location and machine type.",
                "사업장별·기기유형별 현재 설치 기기 현황입니다."),
+    "r1.intro": ("<div class='rs-intro-title'>Read-only report of where machines are "
+                 "currently installed.</div><ul>"
+                 "<li>Filter by location, type, status (Active by default) and "
+                 "install-date range</li>"
+                 "<li>Click Search to list machines grouped by location and type</li>"
+                 "<li>See status and repair counts per machine</li>"
+                 "<li>Export to Excel</li>"
+                 "<li>Nothing is saved or changed here</li></ul>",
+                 "<div class='rs-intro-title'>기기가 현재 어디에 설치되어 있는지 보는 "
+                 "조회 전용 보고서입니다.</div><ul>"
+                 "<li>사업장·유형·상태(기본 Active)·설치일 범위로 필터</li>"
+                 "<li>조회 시 사업장·유형별 기기 목록 표시</li>"
+                 "<li>기기별 상태·수리 횟수 함께 확인</li>"
+                 "<li>Excel로 내보내기 가능</li>"
+                 "<li>데이터 저장·변경 없음</li></ul>"),
     "r1.sec_filter": ("Search Criteria", "조회 조건"),
     "r1.f_loc": ("Business Location", "사업장"),
     "r1.f_type": ("Machine Type", "기기 유형"),
@@ -236,6 +285,22 @@ T = {
     "r2.title": ("Annual Purchased Product List", "연간 구매 제품 목록 보고서"),
     "r2.sub": ("Assets purchased and disposed in a fiscal year — for accounting & tax filing.",
                "회계연도 구매·처분 자산 목록 — 회계·세무 신고용입니다."),
+    "r2.intro": ("<div class='rs-intro-title'>Read-only report of assets purchased and "
+                 "disposed in a fiscal year (accounting &amp; tax).</div><ul>"
+                 "<li>Pick the fiscal year</li>"
+                 "<li>Optionally filter by vendor, type, date range, PO status (Received "
+                 "by default)</li>"
+                 "<li>Click Search to list each purchase with quantity, unit and total "
+                 "price</li>"
+                 "<li>Export to Excel</li>"
+                 "<li>Nothing is saved or changed here</li></ul>",
+                 "<div class='rs-intro-title'>회계·세무용으로 한 회계연도의 구매·처분 "
+                 "자산을 보는 조회 전용 보고서입니다.</div><ul>"
+                 "<li>회계연도 선택(필수)</li>"
+                 "<li>벤더·유형·기간·발주 상태(기본 Received)로 범위 좁히기</li>"
+                 "<li>조회 시 구매 건별 수량·단가·합계 표시</li>"
+                 "<li>Excel로 내보내기 가능</li>"
+                 "<li>데이터 저장·변경 없음</li></ul>"),
     "r2.f_year": ("Fiscal Year", "회계연도"),
     "r2.f_vendor": ("Vendor", "벤더"),
     "r2.f_type": ("Machine Type", "기기 유형"),
@@ -272,6 +337,21 @@ T = {
     "r3.title": ("Machine Profitability & Repair Analysis", "기기 수익성 · 수리 이력 분석"),
     "r3.sub": ("Combine revenue with repair burden to flag relocate / replace / junk candidates.",
                "수익과 수리 부담을 결합해 이전·교체·폐기 대상을 식별합니다."),
+    "r3.intro": ("<div class='rs-intro-title'>Read-only analysis weighing each machine's "
+                 "revenue against its repair burden.</div><ul>"
+                 "<li>Pick the period (year / half / quarter / month / custom)</li>"
+                 "<li>Set the revenue threshold for marking a machine Low</li>"
+                 "<li>Optionally filter by location and type</li>"
+                 "<li>Click Search for New / Low / Average / High classes and keep / "
+                 "relocate / replace / junk advice</li>"
+                 "<li>Totals and Excel export; querying runs only on Search</li></ul>",
+                 "<div class='rs-intro-title'>기기별 매출과 수리 부담을 비교해 처리 방안을 "
+                 "제안하는 조회 전용 분석 화면입니다.</div><ul>"
+                 "<li>기간 선택(연/반기/분기/월/사용자지정)</li>"
+                 "<li>저조(Low) 기준 매출 임계값 설정</li>"
+                 "<li>사업장·유형으로 필터(선택)</li>"
+                 "<li>조회 시 신규/저조/평균/우수 분류 + 유지·이전·교체·폐기 추천</li>"
+                 "<li>합계·Excel 제공, 조회는 버튼 클릭 시에만 실행</li></ul>"),
     "r3.sec_filter": ("Analysis Criteria", "분석 조건"),
     "r3.f_period": ("Analysis Period", "분석 기간"),
     "r3.p_year": ("This Year", "연간"),

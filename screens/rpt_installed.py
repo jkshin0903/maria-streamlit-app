@@ -14,6 +14,7 @@ STATUSES = ["Active", "In Warehouse", "Under Repair", "Disposed"]
 def render():
     ui.appbar()
     ui.screen_header("SCR-RPT-01", t("r1.title"), t("r1.sub"))
+    ui.intro(t("r1.intro"))
 
     scope = ui.user_scope()
     sites = db.get_locations()
