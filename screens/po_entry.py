@@ -142,10 +142,9 @@ def render():
 
     st.markdown("---")
 
-    b1, b2, b3, b4 = st.columns([1, 1, 1, 3])
+    b1, b2, _ = st.columns([1, 1, 4])
     save = b1.button(t("po.save"), type="primary", width='stretch')
-    fax = b2.button(t("po.fax"), width='stretch')
-    clear = b3.button(t("po.clear"), width='stretch')
+    clear = b2.button(t("po.clear"), width='stretch')
 
     if clear:
         st.session_state.po_lines = _blank_lines()
@@ -169,16 +168,6 @@ def render():
             names = ", ".join(prod_label.get(d, str(d)) for d in dups)
             errs.append(t("po.err_dup", names=names))
         return errs
-
-    if fax:
-        if vid is None:
-            st.warning(t("po.fax_no_vendor"))
-        elif len(valid) == 0:
-            st.warning(t("po.fax_no_line"))
-        elif not (vrow.fax or "").strip():
-            st.warning(t("po.fax_no_fax"))
-        else:
-            st.success(t("po.fax_ok", vendor=vlabels[vid], fax=vrow.fax))
 
     if save:
         errs = validate()

@@ -105,12 +105,10 @@ def render():
     exp_cols.columns = [t("r1.f_loc"), t("c.address"), t("c.type"), t("c.machine"), "S/N",
                         t("c.manuf"), t("c.pdate"), t("c.pprice"), t("c.idate"),
                         t("c.status"), t("c.repairs")]
-    e1, e2, _ = st.columns([1, 1, 4])
+    e1, _ = st.columns([1, 5])
     e1.download_button(t("btn.export_excel"),
                        export.to_excel_bytes(exp_cols, "Installed Machines"),
                        file_name="installed_machine_status.xlsx", width='stretch')
-    if e2.button(t("btn.print"), width='stretch'):
-        st.toast(t("msg.printed_short"))
 
     st.markdown("---")
 

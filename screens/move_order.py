@@ -201,16 +201,9 @@ def render():
     notes = st.text_area(t("mo.notes"), placeholder=t("mo.notes_ph"))
 
     st.markdown("---")
-    a1, a2, a3, a4 = st.columns([1, 1, 1, 3])
+    a1, a2, _ = st.columns([1, 1, 4])
     save_draft = a1.button(t("mo.save_draft"), width='stretch')
     submit = a2.button(t("mo.submit"), type="primary", width='stretch')
-    printo = a3.button(t("mo.print"), width='stretch')
-
-    if printo:
-        if st.session_state.mo_lines:
-            st.success(t("mo.print_ok"))
-        else:
-            st.warning(t("mo.print_need"))
 
     def _persist(status):
         if not st.session_state.mo_lines:
